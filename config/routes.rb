@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'fold_and_tilt/home'
+
+  get 'fold_and_tilt/about'
+
+  post 'fold_and_tilt/uploadPicture'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

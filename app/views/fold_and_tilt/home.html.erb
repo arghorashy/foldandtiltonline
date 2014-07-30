@@ -1,0 +1,13 @@
+
+<h1>File Upload</h1>
+
+<% if (! params[:jpeg]) %>
+<%=  "Invalid file!" %>
+<% end %>
+
+
+<%= form_tag({action: :uploadPicture}, multipart: true) do %>
+  <%= file_field_tag 'picture' %>
+  <%= submit_tag "Upload" %>
+<% end %>
+ 
