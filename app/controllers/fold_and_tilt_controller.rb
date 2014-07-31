@@ -15,12 +15,17 @@ class FoldAndTiltController < ApplicationController
 		if (File.extname(uploaded_io.original_filename) != ".jpg" && File.extname(uploaded_io.original_filename) != ".jpeg")
 			params[:jpeg] = false
 			render 'fold_and_tilt/home'
+
 		else
-			params[:pname] = Rails.root.join('public', 'uploads', getUniqueFilename())
+			uniqueName = getUniqueFilename()
 			
-			File.open(params[:pname], 'wb') do |file|
-			file.write(uploaded_io.read)
+
+			
+			File.open(Rails.root.join('public', 'uploads', uniqueName), 'wb') do |file|
+				file.write(uploaded_io.read)
 			end
+
+			params[:pname] = "/uploads/#{uniqueName}"
 
 			params[:jpeg] = true
 			render 'fold_and_tilt/home'

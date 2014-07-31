@@ -2,7 +2,10 @@
 <h1>File Upload</h1>
 
 <% if (! params[:jpeg]) %>
-<%=  "Invalid file!" %>
+	"Invalid file!"
+<% else %>
+	<%= image_tag(params[:pname], :size => "300x210" )%>
+
 <% end %>
 
 
