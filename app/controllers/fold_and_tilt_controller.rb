@@ -10,26 +10,36 @@ class FoldAndTiltController < ApplicationController
 	end
 
 	def uploadPicture
+		params[:status] = "ok"
 
-		uploaded_io = params[:picture]
-		if (File.extname(uploaded_io.original_filename) != ".jpg" && File.extname(uploaded_io.original_filename) != ".jpeg")
-			params[:jpeg] = false
+		# Has picture been chosen
+		if (! params.has_key?(:picture))
+			params[:status] = "picnotchosen"
 			render 'fold_and_tilt/home'
+		else 
 
-		else
-			uniqueName = getUniqueFilename()
-			
+			uploaded_io = params[:picture]
 
-			
-			File.open(Rails.root.join('public', 'uploads', uniqueName), 'wb') do |file|
-				file.write(uploaded_io.read)
+			# Is picture JPEG
+			if (File.extname(uploaded_io.original_filename) != ".jpg" && File.extname(uploaded_io.original_filename) != ".jpeg")
+				params[:status] = "picnotjpeg"
+				render 'fold_and_tilt/home'
+
+			# Alright, all good. go ahead!
+			else
+				uniqueName = getUniqueFilename()
+				
+				# Save picture
+				File.open(Rails.root.join('public', 'uploads', uniqueName), 'wb') do |file|
+					file.write(uploaded_io.read)
+				end
+
+				# Path to picture for view
+				params[:pname] = "/uploads/#{uniqueName}"
+				
+				render 'fold_and_tilt/home'
+
 			end
-
-			params[:pname] = "/uploads/#{uniqueName}"
-
-			params[:jpeg] = true
-			render 'fold_and_tilt/home'
-
 		end
 	end
 

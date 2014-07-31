@@ -1,11 +1,13 @@
 
 <h1>File Upload</h1>
 
-<% if (! params[:jpeg]) %>
-	"Invalid file!"
+<% if (params[:status] == "picnotjpeg") %>
+	"Invalid File: Be sure to select a JPEG-type file!"
+<% elsif (params[:status] == "picnotchosen") %>
+	"No file was chosen."
 <% else %>
 	<%= image_tag(params[:pname], :size => "300x210" )%>
-
+ 	<imc src="<%= params[:pname]%>" /> 
 <% end %>
 
 
