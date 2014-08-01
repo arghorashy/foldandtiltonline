@@ -6,10 +6,17 @@
 <% elsif (params[:status] == "picnotchosen") %>
 	"No file was chosen."
 <% else %>
-	<%= image_tag(params[:pname], :size => "300x210" )%>
+	<%= image_tag(params[:pname] )%>
  	<imc src="<%= params[:pname]%>" /> 
+
+	<%= image_tag(params[:pminusname] )%>
+ 	<imc src="<%= params[:pminusname]%>" /> 
+
+ 	<%= image_tag(params[:pplusname] )%>
+ 	<imc src="<%= params[:pplusname]%>" /> 
 <% end %>
 
+<%= params[:errors] %>
 
 <%= form_tag({action: :uploadPicture}, multipart: true) do %>
   <%= file_field_tag 'picture' %>

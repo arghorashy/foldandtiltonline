@@ -30,13 +30,28 @@ class FoldAndTiltController < ApplicationController
 				uniqueName = getUniqueFilename()
 				
 				# Save picture
-				File.open(Rails.root.join('public', 'uploads', uniqueName), 'wb') do |file|
+				pFname = Rails.root.join('public', 'uploads', uniqueName)
+				File.open(pFname, 'wb') do |file|
 					file.write(uploaded_io.read)
 				end
 
+				# Warp picture minus
+				pminusFname = File.join( File.dirname(pFname), "#{File.basename(pFname, ".*")}-minus.jpg" )
+				pplusFname = File.join( File.dirname(pFname), "#{File.basename(pFname, ".*")}-plus.jpg" )
+				#params[:errors] = "cd bin/foldandtilt; ./FoldnTilt #{pFname} #{pminusFname} -100"
+				IO.popen("cd bin/foldandtilt; ./FoldnTilt #{pFname} #{pminusFname} -100 false") do |result| 
+					params[:errors] = result.gets
+				end
+				IO.popen("cd bin/foldandtilt; ./FoldnTilt #{pFname} #{pplusFname} 100 false") do |result| 
+					params[:errors] = result.gets
+				end
+				
+
 				# Path to picture for view
 				params[:pname] = "/uploads/#{uniqueName}"
-				
+				params[:pminusname] = "/uploads/#{File.basename(pminusFname)}"
+				params[:pplusname] = "/uploads/#{File.basename(pplusFname)}"
+
 				render 'fold_and_tilt/home'
 
 			end
