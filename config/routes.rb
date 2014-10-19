@@ -5,6 +5,8 @@ Rails.application.routes.draw do
 
   post 'fold_and_tilt/uploadPicture'
 
+  get 'template/index'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
